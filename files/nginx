@@ -1,0 +1,12 @@
+/data/nginxlog/access*.log {
+    daily
+    rotate 7
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+        [ -e /var/run/nginx.pid ] && kill -USR1 `cat /var/run/nginx.pid` ]
+    endscript
+}
+

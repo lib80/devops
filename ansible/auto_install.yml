@@ -1,0 +1,89 @@
+- hosts: '{{ host }}'
+  remote_user: root
+  vars:
+    - nginx_v: x.x.x
+    - mysql_v: x.x.x
+    - redis_v: x.x.x
+    - memcached_v: x.x.x
+    - elasticsearch_v: x.x.x
+    - rocketmq_v: x.x.x
+    - zookeeper_v: x.x.x
+    - kafka_v: x.x.x
+    - filebeat_v: x.x.x
+    - logstash_v: x.x.x
+    - kibana_v: x.x.x
+    - php_v: x.x.x
+    - zabbix_v: x.x.x
+    - prometheus_v: x.x.x
+    - alertmanager_v: x.x.x
+    - grafana_v: x.x.x       
+    - node_exporter_v: x.x.x
+    - nginx_vts_exporter_v: x.x.x
+    - mysql_exporter_v: x.x.x
+    - redis_exporter_v: x.x.x
+    - memcached_exporter_v: x.x.x
+    - elasticsearch_exporter_v: x.x.x
+    - openssl_v: x.x.x
+    - python3_v: x.x.x
+    - node_v: x.x.x
+
+
+  tasks:
+    - include: jdk.yml
+      tags: jdk
+    - include: nginx.yml
+      tags: nginx
+    - include: mysql.yml
+      tags: mysql
+    - include: redis.yml
+      tags: redis
+    - include: memcached.yml
+      tags: memcached
+    - include: elasticsearch.yml
+      tags: elasticsearch
+    - include: rocketmq.yml
+      tags: rocketmq
+    - include: zookeeper.yml
+      tags: zookeeper
+    - include: kafka.yml
+      tags: kafka
+    - include: logstash.yml
+      tags: logstash
+    - include: filebeat.yml
+      tags: filebeat
+    - include: kibana.yml
+      tags: kibana
+    - include: php.yml
+      tags: php
+    - include: zabbix-agent.yml
+      tags: zabbix-agent
+    - include: zabbix-server.yml
+      tags: zabbix-server
+    - include: prometheus.yml
+      tags: prometheus
+    - include: alertmanager.yml
+      tags: alertmanager
+    - include: grafana.yml
+      tags: grafana
+    - include: node_exporter.yml
+      tags: node_exporter
+    - include: nginx-vts-exporter.yml
+      tags: nginx-vts-exporter
+    - include: mysqld_exporter.yml
+      tags: mysqld_exporter
+    - include: redis_exporter.yml
+      tags: redis_exporter
+    - include: memcached_exporter.yml
+      tags: memcached_exporter
+    - include: elasticsearch_exporter.yml
+      tags: elasticsearch_exporter
+    - include: rocketmq-exporter.yml
+      tags: rocketmq-exporter
+    - include: openssl.yml
+      tags: openssl
+    - include: python3.yml
+      tags: python3
+    - include: node.yml
+      tags: node
+    - include: docker.yml
+      tags: docker

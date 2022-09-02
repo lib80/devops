@@ -1,0 +1,6 @@
+- copy: src={{ item.src }} dest={{ item.dest }} force=no
+  with_items:
+    - { src: '/usr/local/src/alertmanager-{{ alertmanager_v }}.linux-amd64.tar.gz', dest: '/usr/local/src/' }
+    - { src: '/usr/local/files/alertmanager.service', dest: '/usr/lib/systemd/system/' }
+- script: /usr/local/scripts/alertmanager_inst.sh {{ alertmanager_v }}
+- copy: src=/usr/local/files/wechat.tmpl dest=/usr/local/alertmanager/templates/ owner=nobody group=nobody force=no

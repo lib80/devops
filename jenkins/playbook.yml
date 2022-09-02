@@ -1,0 +1,5 @@
+- hosts: '{{ host }}'
+  remote_user: xxx
+
+  tasks:
+    - synchronize: src=dist/ dest=/somepath/ delete=true

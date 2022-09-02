@@ -1,0 +1,5 @@
+- copy: src={{ item.src }} dest={{ item.dest }} force=no
+  with_items:
+    - { src: '/usr/local/src/redis-{{ redis_v }}.tar.gz', dest: '/usr/local/src/' }
+    - { src: '/usr/local/files/redis.service', dest: '/usr/lib/systemd/system/' }
+- script: /usr/local/scripts/redis_inst.sh {{ redis_v }}

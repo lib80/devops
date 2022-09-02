@@ -1,0 +1,13 @@
+[Unit]
+Description=logstash
+After=network.target
+
+[Service]
+User=nobody
+Group=nobody
+Type=simple
+Environment=JAVA_HOME=/usr/local/jdk
+ExecStart=/usr/local/logstash/bin/logstash -r -f /usr/local/logstash/config/logstash.conf
+
+[Install]
+WantedBy=multi-user.target

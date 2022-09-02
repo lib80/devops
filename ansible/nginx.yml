@@ -1,0 +1,7 @@
+- copy: src={{ item.src }} dest={{ item.dest }} force=no
+  with_items:
+    - { src: '/usr/local/src/nginx-{{ nginx_v }}.tar.gz', dest: '/usr/local/src/' }
+    - { src: '/usr/local/src/nginx-module-vts-0.1.18.tar.gz', dest: '/usr/local/src/' }
+    - { src: '/usr/local/files/nginx.service', dest: '/usr/lib/systemd/system/' }
+    - { src: '/usr/local/files/nginx', dest: '/etc/logrotate.d/' }
+- script: /usr/local/scripts/nginx_inst.sh {{ nginx_v }}

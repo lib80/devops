@@ -1,0 +1,5 @@
+- copy: src={{ item.src }} dest={{ item.dest }} force=no
+  with_items:
+    - { src: '/usr/local/src/logstash-{{ logstash_v }}.tar.gz', dest: '/usr/local/src/' }
+    - { src: '/usr/local/files/logstash.service', dest: '/usr/lib/systemd/system/' }
+- script: /usr/local/scripts/logstash_inst.sh {{ logstash_v }}

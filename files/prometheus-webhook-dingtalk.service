@@ -1,0 +1,15 @@
+[Unit]
+Description=node_exporter
+After=network.target
+
+[Service]
+User=nobody
+Group=nobody
+Type=simple
+ExecStart=/usr/local/prometheus-webhook-dingtalk/prometheus-webhook-dingtalk --config.file=/usr/local/prometheus-webhook-dingtalk/config.yml
+#Restart=on-failure
+StandardOutput=journal
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target

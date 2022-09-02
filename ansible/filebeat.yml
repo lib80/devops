@@ -1,0 +1,6 @@
+- copy: src={{ item.src }} dest={{ item.dest }} force=no
+  with_items:
+    - { src: '/usr/local/src/filebeat-{{ filebeat_v }}-linux-x86_64.tar.gz', dest: '/usr/local/src/' }
+    - { src: '/usr/local/files/filebeat.service', dest: '/usr/lib/systemd/system/' }
+- script: /usr/local/scripts/filebeat_inst.sh {{ filebeat_v }}
+#- script: /usr/local/scripts/auto_filebeat_config.py

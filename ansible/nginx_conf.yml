@@ -1,0 +1,12 @@
+---
+- hosts: biz
+  remote_user: root
+
+  tasks:
+    - name: change configure
+      template: src=nginx_conf_{{ project }}.j2 dest=/usr/local/nginx/conf/nginx.conf backup=yes
+      notify: reload
+
+  handlers:
+    - name: reload
+      shell: /usr/local/nginx/sbin/nginx -s reload 

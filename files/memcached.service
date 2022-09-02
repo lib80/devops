@@ -1,0 +1,12 @@
+[Unit]
+Description=Memcached
+After=network.target
+
+[Service]
+Type=forking
+EnvironmentFile=-/usr/local/memcached/memcached.env
+ExecStartPre=/usr/bin/rm -f $PIDFILE
+ExecStart=/usr/local/memcached/bin/memcached -u $USER -p $PORT -m $CACHESIZE -c $MAXCONN -P $PIDFILE $OPTIONS -d
+
+[Install]
+WantedBy=multi-user.target

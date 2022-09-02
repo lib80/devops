@@ -1,0 +1,7 @@
+- copy: src={{ item.src }} dest={{ item.dest }} force=no
+  with_items:
+    - { src: '/usr/local/src/zabbix-{{ zabbix_v }}.tar.gz', dest: '/usr/local/src/' }
+    - { src: '/usr/local/files/zabbix-server.service', dest: '/usr/lib/systemd/system/' }
+    - { src: '/usr/local/files/zabbix-agent.service', dest: '/usr/lib/systemd/system/' }
+- script: /usr/local/scripts/zabbix-server_inst.sh {{ zabbix_v }}
+- copy: src=/usr/local/scripts/dingdingrobot.py dest=/usr/local/zabbix/share/zabbix/alertscripts/ mode=0755

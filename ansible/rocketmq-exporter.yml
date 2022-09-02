@@ -1,0 +1,1 @@
+- copy: src=/usr/local/src/rocketmq-exporter-0.0.1-SNAPSHOT.jar dest=/usr/local/rocketmq-exporter/

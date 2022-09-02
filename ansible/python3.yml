@@ -1,0 +1,2 @@
+- copy: src=/usr/local/src/Python-{{ python3_v }}.tar.xz dest=/usr/local/src/ force=no
+- script: /usr/local/scripts/python3_inst.sh {{ python3_v }}

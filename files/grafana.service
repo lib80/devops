@@ -1,0 +1,12 @@
+[Unit]
+Description=grafana
+After=network.target
+
+[Service]
+User=nobody
+Group=nobody
+Type=simple
+ExecStart=/usr/local/grafana/bin/grafana-server -homepath /usr/local/grafana
+
+[Install]
+WantedBy=multi-user.target

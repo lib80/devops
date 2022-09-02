@@ -1,0 +1,15 @@
+[Unit]
+Description=memcached_exporter
+After=network.target
+
+[Service]
+User=nobody
+Group=nobody
+Type=simple
+ExecStart=/usr/local/memcached_exporter/memcached_exporter --memcached.address=localhost:11211 --web.listen-address=:9150
+#Restart=on-failure
+StandardOutput=journal
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target

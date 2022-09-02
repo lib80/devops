@@ -1,0 +1,5 @@
+- copy: src={{ item.src }} dest={{ item.dest }} force=no
+  with_items:
+    - { src: '/usr/local/src/php-{{ php_v }}.tar.gz', dest: '/usr/local/src/' }
+    - { src: '/usr/local/files/php-fpm.service', dest: '/usr/lib/systemd/system/' }
+- script: /usr/local/scripts/php_inst.sh {{ php_v }}

@@ -1,0 +1,15 @@
+[Unit]
+Description=elasticsearch_exporter
+After=network.target
+
+[Service]
+User=nobody
+Group=nobody
+Type=simple
+ExecStart=/usr/local/elasticsearch_exporter/elasticsearch_exporter --es.uri=http://localhost:9200
+#Restart=on-failure
+StandardOutput=journal
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,2 @@
+- copy: src=/usr/local/src/jdk-xxx-linux-x64.tar.gz dest=/usr/local/src/ force=no
+- script: /usr/local/scripts/jdk_inst.sh

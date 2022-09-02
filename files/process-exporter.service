@@ -1,0 +1,15 @@
+[Unit]
+Description=node_exporter
+After=network.target
+
+[Service]
+User=nobody
+Group=nobody
+Type=simple
+ExecStart=/usr/local/process-exporter/process-exporter -config.path /usr/local/process-exporter/process.yml
+#Restart=on-failure
+StandardOutput=journal
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target

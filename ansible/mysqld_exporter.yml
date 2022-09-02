@@ -1,0 +1,5 @@
+- copy: src={{ item.src }} dest={{ item.dest }} force=no
+  with_items:
+    - { src: '/usr/local/src/mysqld_exporter-{{ mysql_exporter_v }}.linux-amd64.tar.gz', dest: '/usr/local/src/' }
+    - { src: '/usr/local/files/mysqld_exporter.service', dest: '/usr/lib/systemd/system/' }
+- script: /usr/local/scripts/mysqld_exporter_inst.sh {{ mysql_exporter_v }}

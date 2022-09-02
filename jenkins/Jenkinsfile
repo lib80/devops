@@ -1,0 +1,149 @@
+
+@Library('jenkinslib') _
+def tools = new org.devops.tools()
+
+pipeline {
+    agent any
+    options {
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: '20'))
+        timeout(time: 10, unit: 'MINUTES')
+        gitLabConnection('gitlab')
+        gitlabBuilds(builds: ['build', 'deploy'])
+    }
+    parameters {
+        choice(name: 'action', choices: ['deploy', 'rollback'])
+        choice(name: 'branch', choices: ['test', 'master'])
+        //gitParameter name: 'branch', type: 'PT_BRANCH_TAG', branchFilter: 'origin/(.*)', selectedValue: 'NONE', defaultValue: 'test'
+        string(name: 'commit_id', defaultValue: '0', description: '回滚时需要指定代码版本号')
+    }
+
+    environment {
+        mobile = '133xxx'
+    }
+    
+    triggers {
+        gitlab(
+            triggerOnPush: true,
+            triggerOnMergeRequest: false,
+            //branchFilterType: 'All',
+            branchFilterType: "NameBasedFilter",
+            includeBranchesSpec: "master, test",
+            secretToken: 'xxx'
+        )
+    }
+
+    stages {
+        stage ('GetExecutor') {
+            steps {
+                script {
+                    wrap([$class: 'BuildUser']) {
+                        env.executor = env.BUILD_USER
+                    }
+                }
+            }
+        }
+
+        stage ('TriggerBySCM') {
+            when { expression { return env.gitlabActionType }}
+            //when { not {triggeredBy cause: "UserIdCause" }}
+            //when { triggeredBy 'SCMTrigger' }
+            steps {
+                echo "---gitlab触发---"
+                script {
+                    env.src_branch = env.gitlabBranch
+                }              
+            }
+        }
+        
+        stage ('TriggerByUser') {
+            when { triggeredBy cause: "UserIdCause" }
+            steps {
+                echo "---手动触发---"
+                script {
+                    env.src_branch = params.branch
+                }
+            }
+        }
+
+        stage ('JudgeAction') {
+            when { environment name: 'action', value: 'rollback' }
+            steps {
+                script {
+                    env.src_branch = params.commit_id
+                }
+            }
+        }
+        
+        stage ('StartNotify') {
+            steps {
+                script {
+                    tools.dingding_notify(mobile)
+                }
+            }
+        }
+        
+        stage('Source') {
+            steps {
+                // clean before build
+                cleanWs()
+                echo "检出代码，分支/commitId为${env.src_branch}"
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: "${env.src_branch}"]],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [],
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[credentialsId: 'xxxx', url: 'git@xxx.git']]
+                ])
+            }
+        }
+
+        stage('Build') {
+            steps {
+                nodejs('node-v14.15.4') {
+                    sh "npm install && npm run build:${env.src_branch}"
+                }
+            }
+            post {
+                failure {
+                    updateGitlabCommitStatus name: 'build', state: 'failed'
+                }
+                success {
+                    updateGitlabCommitStatus name: 'build', state: 'success'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    def target_serv
+                    if (env.src_branch == "master") {
+                        target_serv = "prod_serv"
+                        println "部署到生产环境"
+                    } else {
+                        target_serv = "test_serv"
+                        println "部署到测试环境"
+                    }
+                    ansiblePlaybook extras: "-e \"host=${target_serv}\"", installation: 'ansible-2.9', inventory: 'hosts', playbook: 'playbook.yml'
+                }
+            }
+            post {
+                failure {
+                    updateGitlabCommitStatus name: 'deploy', state: 'failed'
+                }
+                success {
+                    updateGitlabCommitStatus name: 'deploy', state: 'success'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                tools.dingding_notify(mobile)
+            }
+        }
+    }
+}

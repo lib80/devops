@@ -1,0 +1,2 @@
+- copy: src=/usr/local/src/node-{{ node_v }}-linux-x64.tar.xz dest=/usr/local/src/ force=no
+- script: /usr/local/scripts/node_inst.sh {{ node_v }}

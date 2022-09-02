@@ -1,0 +1,15 @@
+[Unit]
+Description=redis_exporter
+After=network.target
+
+[Service]
+User=nobody
+Group=nobody
+Type=simple
+ExecStart=/usr/local/redis_exporter/redis_exporter -redis.addr=redis://localhost:6379 -web.listen-address=:9121
+#Restart=on-failure
+StandardOutput=journal
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target

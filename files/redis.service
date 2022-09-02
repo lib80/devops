@@ -1,0 +1,13 @@
+[Unit]
+Description=Redis
+After=network.target
+
+[Service]
+#Type=forking
+PIDFile=/var/run/redis.pid
+User=redis
+Group=redis
+ExecStart=/usr/local/redis/bin/redis-server /usr/local/redis/conf/redis.conf
+
+[Install]
+WantedBy=multi-user.target

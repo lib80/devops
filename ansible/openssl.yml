@@ -1,0 +1,2 @@
+- copy: src=/usr/local/src/openssl-{{ openssl_v }}.tar.gz dest=/usr/local/src/ force=no
+- script: /usr/local/scripts/openssl_inst.sh {{ openssl_v }}

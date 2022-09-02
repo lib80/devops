@@ -1,0 +1,13 @@
+[Unit]
+Description=nginx-vts-exporter
+After=network.target
+
+[Service]
+User=nobody
+Group=nobody
+Type=simple
+ExecStart=/usr/local/nginx-vts-exporter/nginx-vts-exporter -nginx.scrape_uri=http://localhost/status/format/json
+#Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

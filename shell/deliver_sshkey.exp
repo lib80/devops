@@ -1,0 +1,27 @@
+#!/usr/bin/expect
+# author libin
+# 该脚本用于自动传递公钥给目标主机以实现ssh免密登陆
+
+if { $argc < 2 } {
+    send_user "usage: expect deliver_sshkey.exp host passwd\n"
+    exit
+}
+
+#define var
+set host [lindex $argv 0]
+set port 22
+set password [lindex $argv 1]
+
+spawn ssh-copy-id -i /root/id_rsa.pub -p $port root@$host
+expect {
+    "yes/no"     {send "yes\r";exp_continue}
+    "*password"  {send "$password\r"}
+}
+expect eof
+
+exit -onexit {
+    send_user "It has completed!\n"
+}
+
+#script usage
+#expect deliver_sshkey.exp host

@@ -1,0 +1,10 @@
+[Unit]
+Description=MySQL
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/mysql/bin/mysqld_safe --defaults-file=/usr/local/mysql/conf/my.cnf
+
+[Install]
+WantedBy=multi-user.target

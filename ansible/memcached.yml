@@ -1,0 +1,6 @@
+- copy: src={{ item.src }} dest={{ item.dest }} force=no
+  with_items:
+    - { src: '/usr/local/src/memcached-{{ memcached_v }}.tar.gz', dest: '/usr/local/src/' }
+    - { src: '/usr/local/files/memcached.service', dest: '/usr/lib/systemd/system/' }
+- script: /usr/local/scripts/memcached_inst.sh {{ memcached_v }}
+- copy: src=/usr/local/files/memcached.env dest=/usr/local/memcached/ force=no

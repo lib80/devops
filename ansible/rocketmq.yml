@@ -1,0 +1,3 @@
+- copy: src=/usr/local/src/rocketmq-all-{{ rocketmq_v }}-bin-release.zip dest=/usr/local/src/ force=no
+- script: /usr/local/scripts/rocketmq_inst.sh {{ rocketmq_v }}
+- copy: src=/usr/local/scripts/startMQ.sh dest=/usr/local/rocketmq/startAll.sh force=no owner=rocketmq group=rocketmq mode=0755 

@@ -1,0 +1,6 @@
+- copy: src={{ item.src }} dest={{ item.dest }} force=no
+  with_items:
+    - { src: '/usr/local/src/kibana-{{ kibana_v }}-linux-x86_64.tar.gz', dest: '/usr/local/src/' }
+    - { src: '/usr/local/src/sentinl-v{{ kibana_v }}.zip', dest: '/usr/local/src/' }
+    - { src: '/usr/local/files/kibana.service', dest: '/usr/lib/systemd/system/' }
+- script: /usr/local/scripts/kibana_inst.sh {{ kibana_v }}

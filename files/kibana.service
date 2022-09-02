@@ -1,0 +1,12 @@
+[Unit]
+Description=kibana
+After=network.target
+
+[Service]
+User=nobody
+Group=nobody
+Type=simple
+ExecStart=/usr/local/kibana/bin/kibana
+
+[Install]
+WantedBy=multi-user.target
