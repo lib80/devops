@@ -23,7 +23,7 @@ def sort_v2(ls):
                 flag = True
                 temp = ls[j]
                 ls[j] = ls[j+1]
-                ls[j+1] = ls[j]
+                ls[j+1] = temp
         if not flag:
             break
     return ls
