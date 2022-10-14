@@ -9,7 +9,7 @@ fi
 
 #准备开发环境
 yum -y groupinstall "Development Tools"
-yum -y install wget mlocate lsof
+yum -y install epel-release vim wget mlocate lsof telnet iftop
 
 #设置命令提示符和命令历史格式
 echo 'PS1="\[\e[37;1m\][\[\e[32;1m\]\u\[\e[37;40m\]@\[\e[34;1m\]\h \[\e[0m\]\t \[\e[35;1m\]\W\[\e[37;1m\]]\[\e[m\]\\$ "' >> /etc/profile
