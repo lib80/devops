@@ -2,7 +2,7 @@
 # Author: libin
 
 # 判断目标主机是否已初始化
-if [ `yum grouplist installed | grep -c "Development Tools"` -gt 0 ];then
+if [ "$(yum grouplist installed | grep -c 'Development Tools')" -gt 0 ];then
     echo 'The host had already been initialized.'
     exit 0
 fi
@@ -13,7 +13,7 @@ yum -y install epel-release vim wget mlocate lsof telnet iftop
 
 #设置命令提示符和命令历史格式
 echo 'PS1="\[\e[37;1m\][\[\e[32;1m\]\u\[\e[37;40m\]@\[\e[34;1m\]\h \[\e[0m\]\t \[\e[35;1m\]\W\[\e[37;1m\]]\[\e[m\]\\$ "' >> /etc/profile
-echo 'export HISTTIMEFORMAT="%F %T `whoami` "' >> /etc/profile
+echo 'export HISTTIMEFORMAT="%F %T $(whoami) "' >> /etc/profile
 
 #调大最大进程数
 cat > /etc/security/limits.d/20-nproc.conf <<- EOF
@@ -40,7 +40,7 @@ systemctl disable firewalld
 
 mkdir /data
 #挂载并格式化数据盘
-if [ -b /dev/vdb ] && [ -z `lsblk -o FSTYPE /dev/vdb | grep -v "FSTYPE"` ]; then
+if [ -b /dev/vdb ] && [ -z "$(lsblk -o FSTYPE /dev/vdb | grep -v 'FSTYPE')" ]; then
     parted -s /dev/vdb mklabel gpt
     parted -s /dev/vdb mkpart primary 2048s 100%
     mkfs.ext4 /dev/vdb1
